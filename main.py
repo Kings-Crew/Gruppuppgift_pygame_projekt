@@ -15,15 +15,15 @@ def draw_window():#fills the screen with color white and updates the screen
 class board(object):
     def __init__(self):
         self.image = pygame.image.load("breakout_piece_blue.png")
-        self.y = 250
-        self.x = 300
+        self.y = 560
+        self.x = 350
     def handle_keys(self):
         key = pygame.key.get_pressed()
-        dist = 5
-        if key[pygame.K_DOWN]:
+        dist = 10
+        """ if key[pygame.K_DOWN]:
             self.y += dist
         elif key[pygame.K_UP]:
-            self.y -= dist
+            self.y -= dist """
         if key[pygame.K_RIGHT]:
             self.x += dist
         elif key[pygame.K_LEFT]:
