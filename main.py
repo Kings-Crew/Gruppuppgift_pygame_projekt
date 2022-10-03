@@ -1,5 +1,6 @@
 import pygame
 import time
+import os
 #from pygame.locals import *
 pygame.init()
 FPS = 30
@@ -14,7 +15,7 @@ def draw_window():#fills the screen with color white and updates the screen
 
 class board(object):
     def __init__(self):
-        self.image = pygame.image.load("breakout_piece_blue.png")
+        self.image = pygame.image.load(os.path.join('Assets\images', 'breakout_piece_blue.png'))
         self.y = 560
         self.x = 350
     def handle_keys(self):
@@ -28,7 +29,7 @@ class board(object):
             self.x += dist
         elif key[pygame.K_LEFT]:
             self.x -= dist
-
+    
     def draw(self, surface):
         surface.blit(self.image, (self.x, self.y))
 
