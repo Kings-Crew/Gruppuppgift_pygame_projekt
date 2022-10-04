@@ -1,12 +1,12 @@
 import pygame
 import sys
-from button import Button
+from button_v1 import Button
 from main import Main
 pygame.init()
 
 # Längst upp i vänstra hörnet i spelfönstret kommer det stå: Menu
 SCREEN = pygame.display.set_mode((1280, 720))
-pygame.display.set_caption("Menu")
+pygame.display.set_caption("DashLack Breakout")
 
 BG = pygame.image.load("assets/Background.png")
 
