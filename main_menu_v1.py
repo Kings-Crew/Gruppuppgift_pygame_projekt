@@ -10,7 +10,7 @@ pygame.display.set_caption("Menu")
 BG = pygame.image.load("assets/Background.png")
 
 
-def get_font(size):  # Returns Press-Start-2P in the desired size
+def get_font(size):  # Returnerar tryck-på-start sekvensen i önskad storlek
     return pygame.font.Font("assets/font.ttf", size)
 
 
