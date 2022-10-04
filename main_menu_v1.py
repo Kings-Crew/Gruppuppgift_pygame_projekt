@@ -1,9 +1,10 @@
 import pygame
 import sys
 from button import Button
-
+from main import Main
 pygame.init()
 
+# Längst upp i vänstra hörnet i spelfönstret kommer det stå: Menu
 SCREEN = pygame.display.set_mode((1280, 720))
 pygame.display.set_caption("Menu")
 
@@ -98,7 +99,7 @@ def main_menu():
                 sys.exit()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if PLAY_BUTTON.checkForInput(MENU_MOUSE_POS):
-                    play()
+                    Main.main()
                 if OPTIONS_BUTTON.checkForInput(MENU_MOUSE_POS):
                     options()
                 if QUIT_BUTTON.checkForInput(MENU_MOUSE_POS):
