@@ -1,44 +1,52 @@
+
 import pygame
 import time
 import os
-#from pygame.locals import *
-pygame.init()
+import random
+
 FPS = 30
 WIDTH, HEIGHT = 800 , 600
+pygame.init()
 screen = pygame.display.set_mode((WIDTH,HEIGHT))
-GREY = (90,90,90)
+WHITE = (255,255,255)
+clock = pygame.time.Clock()#tar in fps variabeln senare  
+all_sprites = pygame.sprite.Group()#en group som håller alla sprites,
 
-clock = pygame.time.Clock()
+img_folder = os.path.join('assets\images')#path till image folder, sparas som variabel
 
 def draw_window():#fills the screen with color white and updates the screen 
-    screen.fill((GREY))
+    screen.fill((WHITE))
 
-class board(object):
+class board(pygame.sprite.Sprite):
     def __init__(self):
-        self.image = pygame.image.load(os.path.join('Assets\images', 'breakout_piece_blue.png'))
-        self.y = 560
-        self.x = 350
-    def handle_keys(self):
-        key = pygame.key.get_pressed()
-        dist = 10
-        """ if key[pygame.K_DOWN]:
-            self.y += dist
-        elif key[pygame.K_UP]:
-            self.y -= dist """
-        if key[pygame.K_RIGHT]:
-            self.x += dist
-        elif key[pygame.K_LEFT]:
-            self.x -= dist
-    
-    def draw(self, surface):
-        surface.blit(self.image, (self.x, self.y))
+        pygame.sprite.Sprite.__init__(self)
+        self.image = pygame.image.load(os.path.join(img_folder, 'breakout_piece_blue.png')).convert_alpha()
+        self.rect = self.image.get_rect()#skapar en rect runt image
+        speed = 10 
+        
+
+class ball(pygame.sprite.Sprite):
+    def __init__(self):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = pygame.image.load(os.path.join(img_folder, 'ball_piece_blue.png')).convert_alpha()
+        self.rect = self.image.get_rect()
+        self.rect.center = (WIDTH / 2, HEIGHT / 2)
+
+class player:
+    pass
 
 
-
-""" class player:
-    pass """
 
 board = board()
+ball = ball()
+all_sprites.add(board,ball)#instanser av sprite classes, läggs i en gemensam group för att enkelt kunna hantera fler sprites samtidigt
+    
+def handle_keys():
+    key = pygame.key.get_pressed()
+    if key[pygame.K_RIGHT]and board.Right < WIDTH:
+        board.Right = board.speed
+    elif key[pygame.K_LEFT] and board.Left > 0:
+        board.Left -= board.speed
 
 class Main:
     pass
@@ -52,13 +60,12 @@ class Main:
                     running = False
             
             
-            board.handle_keys()
-            draw_window()
-            board.draw(screen)
-            pygame.display.update()
-        
             
-            
+            handle_keys()#just nu ej fungerande, håller på med att fixa det
+            all_sprites.update()#uppdaterar alla sprites som är i sprite.group()
+            draw_window()#gör bakgrunden vit
+            all_sprites.draw(screen)#printar/ritar ut alla sprites i sprite.group()
+            pygame.display.update()       
           
     if __name__ == "__main__":
         main()
