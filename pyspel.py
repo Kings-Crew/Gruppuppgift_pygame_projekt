@@ -3,18 +3,18 @@ from pygame.locals import *
 
 pygame.init()
 
-screen_width = 600
-screen_height = 600
+screen_width = 1300
+screen_height = 1300
 
 screen = pygame.display.set_mode((screen_width, screen_height))
 pygame.display.set_caption('Breakout')
 
 #define colours
-bg = (234, 218, 184)
+bg = (0, 0, 0)
 #block colours
-block_red = (242, 85, 96)
-block_green = (86, 174, 87)
-block_blue = (69, 177, 232)
+block_tan = (230, 220, 170)
+block_coffee_brown = (200, 190, 140)
+block_rust = (210, 150, 75)
 
 
 #define game variables
@@ -62,11 +62,11 @@ class wall():
             for block in row:
                 #assign a colour based on block strength
                 if block[1] == 3:
-                    block_col = block_blue
+                    block_col = block_rust
                 elif block[1] == 2:
-                    block_col = block_green
+                    block_col = block_coffee_brown
                 elif block[1] == 1:
-                    block_col = block_red
+                    block_col = block_tan
                 pygame.draw.rect(screen, block_col, block[0])
                 pygame.draw.rect(screen, bg, (block[0]), 2)
 
