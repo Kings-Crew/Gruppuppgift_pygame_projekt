@@ -22,9 +22,25 @@ class board(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.image.load(os.path.join(img_folder, 'breakout_piece_blue.png')).convert_alpha()
         self.rect = self.image.get_rect()#skapar en rect runt image
-        speed = 10 
+        self.y_pos = HEIGHT -50
+        self.x_pos = WIDTH /2
+        self.rect.center = (self.x_pos, self.y_pos)
+        self.direction = 0
+        self.speed = 10 
+    def update(self):
+        if self.x_pos < 32:
+            self.x_pos = 32
+        if self.x_pos > WIDTH -32:
+            self.x_pos = WIDTH -32
+        self.rect.center = (self.x_pos,self.y_pos)
+    def move_left(self):
+        self.x_pos -= self.speed
+        self.direction = -1
+    def move_right(self):
+        self.x_pos += self.speed
+        self.direction = 1
+    
         
-
 class ball(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
@@ -41,12 +57,7 @@ board = board()
 ball = ball()
 all_sprites.add(board,ball)#instanser av sprite classes, läggs i en gemensam group för att enkelt kunna hantera fler sprites samtidigt
     
-def handle_keys():
-    key = pygame.key.get_pressed()
-    if key[pygame.K_RIGHT]and board.Right < WIDTH:
-        board.Right = board.speed
-    elif key[pygame.K_LEFT] and board.Left > 0:
-        board.Left -= board.speed
+
 
 class Main:
     pass
@@ -59,9 +70,12 @@ class Main:
                 if event.type == pygame.QUIT:
                     running = False
             
+            key = pygame.key.get_pressed()
+            if key[pygame.K_LEFT]:
+                board.move_left()
+            if key[pygame.K_RIGHT]:
+                board.move_right()            
             
-            
-            handle_keys()#just nu ej fungerande, håller på med att fixa det
             all_sprites.update()#uppdaterar alla sprites som är i sprite.group()
             draw_window()#gör bakgrunden vit
             all_sprites.draw(screen)#printar/ritar ut alla sprites i sprite.group()
