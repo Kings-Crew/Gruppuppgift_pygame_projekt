@@ -1,11 +1,12 @@
 
+from ctypes.wintypes import RGB
 import pygame
 import time
 import os
 from random import randint as RI
 
 pygame.init()
-collision_threshhold = 5
+collision_threshhold = 12
 max_ball_speed = 5 
 WHITE = (255,255,255)
 FPS = 60
@@ -29,7 +30,7 @@ class board(pygame.sprite.Sprite):
         self.direction = 0
         self.speed = 10 
     def update(self):
-        if self.x_pos < 32:
+        if self.x_pos < 32:#32 halva bord length
             self.x_pos = 32
         if self.x_pos > WIDTH -32:
             self.x_pos = WIDTH -32
@@ -48,14 +49,15 @@ class ball(pygame.sprite.Sprite):
         self.x_pos = WIDTH / 2
         self.y_pos = HEIGHT / 2
         self.image = pygame.image.load(os.path.join(img_folder, 'ball_piece_blue.png')).convert_alpha()
+        self.image = pygame.transform.scale(self.image, (12,12))
         self.rect = self.image.get_rect()
         self.velocity = [RI(4,8), RI(-8, 8)]#self.velocity[0] är första random i listan och self.velocity[1] är den andra 
         self.rect.center = (self.x_pos, self.y_pos)
     def update(self):
-        #4 är halva bollens storlek i pixels
-        if self.x_pos < 4 or self.x_pos > WIDTH - 4: #if ball collide with left or rigth side it will reverse 
+        #6 är halva bollens storlek i pixels
+        if self.x_pos < 6 or self.x_pos > WIDTH - 6: #if ball collide with left or rigth side it will reverse 
             self.velocity[0] = -self.velocity[0]
-        if self.y_pos < 4: #if the ball collide with the top of the screen
+        if self.y_pos < 6: #if the ball collide with the top of the screen
             self.velocity[1] = -self.velocity[1]
         if self.velocity[0] == 0:#if the velociy reach 0 in either x or y direction
             self.velocity[0] += 1
