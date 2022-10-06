@@ -4,14 +4,15 @@ import time
 import os
 from random import randint as RI
 
+pygame.init()
+collision_threshhold = 5
+max_ball_speed = 5 
+WHITE = (255,255,255)
 FPS = 60
 WIDTH, HEIGHT = 800 , 600
-pygame.init()
 screen = pygame.display.set_mode((WIDTH,HEIGHT))
-WHITE = (255,255,255)
-clock = pygame.time.Clock()#tar in fps variabeln senare  
+clock = pygame.time.Clock()#tar in fps variabeln senare 
 all_sprites = pygame.sprite.Group()#en group som håller alla sprites,
-
 img_folder = os.path.join('assets\images')#path till image folder, sparas som variabel
 
 def draw_window():#fills the screen with color white and updates the screen 
@@ -48,7 +49,7 @@ class ball(pygame.sprite.Sprite):
         self.y_pos = HEIGHT / 2
         self.image = pygame.image.load(os.path.join(img_folder, 'ball_piece_blue.png')).convert_alpha()
         self.rect = self.image.get_rect()
-        self.velocity = [RI(2,4), RI(-4, 4)]
+        self.velocity = [RI(4,8), RI(-8, 8)]#self.velocity[0] är första random i listan och self.velocity[1] är den andra 
         self.rect.center = (self.x_pos, self.y_pos)
     def update(self):
         #4 är halva bollens storlek i pixels
@@ -58,18 +59,31 @@ class ball(pygame.sprite.Sprite):
             self.velocity[1] = -self.velocity[1]
         if self.velocity[0] == 0:#if the velociy reach 0 in either x or y direction
             self.velocity[0] += 1
-        if self.velocity[1] ==1:
-            self.velocity[1] +=1
+        if self.velocity[1] == 0:
+            self.velocity[1] += 1
         #sets the velocity to the current position
         self.x_pos += self.velocity[0]
         self.y_pos += self.velocity[1]
         self.rect.center = (self.x_pos, self.y_pos)
     def reset(self):
-        self.velocity = [RI(2,4),RI(-4,4)]
+        self.velocity = [RI(4,8),RI(-8,8)]
         self.x_pos = WIDTH / 2
         self.y_pos = HEIGHT / 2
         self.rect.center = (self.x_pos, self.y_pos)
 
+    def check_board_collision(self,board):
+       
+        if self.rect.colliderect(board.rect):
+            if abs(self.rect.bottom - board.rect.top) < collision_threshhold and self.velocity[1]>0:
+                self.velocity[1] = -self.velocity[1]
+                self.velocity[0] += board.direction
+                if self.velocity[0] > max_ball_speed:
+                    self.velocity[0] = max_ball_speed
+                if self.velocity[0] < -max_ball_speed:
+                    self.velocity[0] = -max_ball_speed
+                else:
+                    self.velocity[0] *= -1
+            
     def is_out_bounds(self):
         return self.y_pos > HEIGHT
 class player:
@@ -99,6 +113,8 @@ class Main:
                 board.move_left()
             if key[pygame.K_RIGHT]:
                 board.move_right()            
+            
+            ball.check_board_collision(board)
             if ball.is_out_bounds():
                 ball.reset()
             all_sprites.update()#uppdaterar alla sprites som är i sprite.group()
