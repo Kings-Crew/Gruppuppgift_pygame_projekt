@@ -2,9 +2,9 @@
 import pygame
 import time
 import os
-import random
+from random import randint as RI
 
-FPS = 30
+FPS = 60
 WIDTH, HEIGHT = 800 , 600
 pygame.init()
 screen = pygame.display.set_mode((WIDTH,HEIGHT))
@@ -44,9 +44,28 @@ class board(pygame.sprite.Sprite):
 class ball(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
+        self.x_pos = WIDTH / 2
+        self.y_pos = HEIGHT / 2
         self.image = pygame.image.load(os.path.join(img_folder, 'ball_piece_blue.png')).convert_alpha()
         self.rect = self.image.get_rect()
-        self.rect.center = (WIDTH / 2, HEIGHT / 2)
+        self.velocity = [RI(2,4), RI(-4, 4)]
+        self.rect.center = (self.x_pos, self.y_pos)
+    def update(self):
+        #4 är halva bollens storlek i pixels
+        if self.x_pos < 4 or self.x_pos > WIDTH - 4: #if ball collide with left or rigth side it will reverse 
+            self.velocity[0] = -self.velocity[0]
+        if self.y_pos < 4: #if the ball collide with the top of the screen
+            self.velocity[1] = -self.velocity[1]
+        if self.velocity[0] == 0:#if the velociy reach 0 in either x or y direction
+            self.velocity[0] += 1
+        if self.velocity[1] ==1:
+            self.velocity[1] +=1
+        #sets the velocity to the current position
+        self.x_pos += self.velocity[0]
+        self.y_pos += self.velocity[1]
+        self.rect.center = (self.x_pos, self.y_pos)
+    def reset(self):
+        
 
 class player:
     pass
