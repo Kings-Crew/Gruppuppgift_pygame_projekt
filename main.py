@@ -65,8 +65,13 @@ class ball(pygame.sprite.Sprite):
         self.y_pos += self.velocity[1]
         self.rect.center = (self.x_pos, self.y_pos)
     def reset(self):
-        
+        self.velocity = [RI(2,4),RI(-4,4)]
+        self.x_pos = WIDTH / 2
+        self.y_pos = HEIGHT / 2
+        self.rect.center = (self.x_pos, self.y_pos)
 
+    def is_out_bounds(self):
+        return self.y_pos > HEIGHT
 class player:
     pass
 
@@ -94,7 +99,8 @@ class Main:
                 board.move_left()
             if key[pygame.K_RIGHT]:
                 board.move_right()            
-            
+            if ball.is_out_bounds():
+                ball.reset()
             all_sprites.update()#uppdaterar alla sprites som är i sprite.group()
             draw_window()#gör bakgrunden vit
             all_sprites.draw(screen)#printar/ritar ut alla sprites i sprite.group()
