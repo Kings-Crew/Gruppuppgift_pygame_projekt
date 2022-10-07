@@ -88,9 +88,9 @@ class board(pygame.sprite.Sprite):
         self.x_pos = WIDTH /2
         self.rect.center = (self.x_pos, self.y_pos)
         self.direction = 0
-        self.speed = 10 
+        self.speed = 12 
     def update(self):
-        if self.x_pos < 60:#32 is halv of board length in pixels
+        if self.x_pos < 60:#60 is halv of board length in pixels
             self.x_pos = 60
         if self.x_pos > WIDTH -60:
             self.x_pos = WIDTH -60
@@ -111,7 +111,7 @@ class ball(pygame.sprite.Sprite):
         self.image = pygame.image.load(os.path.join('assets','ball_piece_blue.png')).convert_alpha()
         self.image = pygame.transform.scale(self.image, (24,24))
         self.rect = self.image.get_rect()
-        self.velocity = [RI(5,5), RI(5,5)]#self.velocity[0] is the first random for x pos and self.velocity[1] is the other random for y 
+        self.velocity = [RI(10,10), RI(10,10)]#self.velocity[0] is the first random for x pos and self.velocity[1] is the other random for y 
         self.rect.center = (self.x_pos, self.y_pos)
     def update(self):
         # 6 is halv of the ball's size in pixels 
@@ -128,7 +128,7 @@ class ball(pygame.sprite.Sprite):
         self.y_pos += self.velocity[1]
         self.rect.center = (self.x_pos, self.y_pos)
     def reset(self):# when the bal resets it will spawn in the center of the screen and have random direction(velocity)
-        self.velocity = [RI(5,5), RI(5,5)]
+        self.velocity = [RI(10,10), RI(10,10)]
         self.x_pos = WIDTH / 2
         self.y_pos = HEIGHT / 2
         self.rect.center = (self.x_pos, self.y_pos) 
