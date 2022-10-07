@@ -1,5 +1,3 @@
-
-from ctypes.wintypes import RGB
 import pygame
 import time
 import os
@@ -12,9 +10,9 @@ WHITE = (255,255,255)
 FPS = 60
 WIDTH, HEIGHT = 800 , 600
 screen = pygame.display.set_mode((WIDTH,HEIGHT))
-clock = pygame.time.Clock()#tar in fps variabeln senare 
-all_sprites = pygame.sprite.Group()#en group som håller alla sprites,
-img_folder = os.path.join('assets\images')#path till image folder, sparas som variabel
+clock = pygame.time.Clock()
+all_sprites = pygame.sprite.Group()#a group that holds all sprites,
+img_folder = os.path.join('assets\images')#path to image folder, saved as a variabel
 
 def draw_window():#fills the screen with color white and updates the screen 
     screen.fill((WHITE))
@@ -23,14 +21,14 @@ class board(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.image.load(os.path.join(img_folder, 'breakout_piece_blue.png')).convert_alpha()
-        self.rect = self.image.get_rect()#skapar en rect runt image
+        self.rect = self.image.get_rect()#creates a rect around image
         self.y_pos = HEIGHT -50
         self.x_pos = WIDTH /2
         self.rect.center = (self.x_pos, self.y_pos)
         self.direction = 0
         self.speed = 10 
     def update(self):
-        if self.x_pos < 32:#32 halva bord length
+        if self.x_pos < 32:#32 is halv of board length in pixels
             self.x_pos = 32
         if self.x_pos > WIDTH -32:
             self.x_pos = WIDTH -32
@@ -51,31 +49,30 @@ class ball(pygame.sprite.Sprite):
         self.image = pygame.image.load(os.path.join(img_folder, 'ball_piece_blue.png')).convert_alpha()
         self.image = pygame.transform.scale(self.image, (12,12))
         self.rect = self.image.get_rect()
-        self.velocity = [RI(4,8), RI(-8, 8)]#self.velocity[0] är första random i listan och self.velocity[1] är den andra 
+        self.velocity = [RI(4,5), RI(4,5)]#self.velocity[0] is the first random for x pos and self.velocity[1] is the other random for y 
         self.rect.center = (self.x_pos, self.y_pos)
     def update(self):
-        #6 är halva bollens storlek i pixels
+        # 6 is halv of the ball's size in pixels 
         if self.x_pos < 6 or self.x_pos > WIDTH - 6: #if ball collide with left or rigth side it will reverse 
             self.velocity[0] = -self.velocity[0]
-        if self.y_pos < 6: #if the ball collide with the top of the screen
+        if self.y_pos < 6: #if the ball collide with the top of the screen set the velocity to negative
             self.velocity[1] = -self.velocity[1]
-        if self.velocity[0] == 0:#if the velociy reach 0 in either x or y direction
+        if self.velocity[0] == 0:#if the velociy reach 0 in either x or y direction, add velocity 
             self.velocity[0] += 1
         if self.velocity[1] == 0:
             self.velocity[1] += 1
-        #sets the velocity to the current position
-        self.x_pos += self.velocity[0]
+        #sets the velocity to the current position so de ball will move acordingly 
+        self.x_pos += self.velocity[0] 
         self.y_pos += self.velocity[1]
         self.rect.center = (self.x_pos, self.y_pos)
-    def reset(self):
-        self.velocity = [RI(4,8),RI(-8,8)]
+    def reset(self):# when the bal resets it will spawn in the center of the screen and have random direction(velocity)
+        self.velocity = [RI(4,5), RI(4,5)]
         self.x_pos = WIDTH / 2
         self.y_pos = HEIGHT / 2
-        self.rect.center = (self.x_pos, self.y_pos)
+        self.rect.center = (self.x_pos, self.y_pos) 
 
     def check_board_collision(self,board):
-       
-        if self.rect.colliderect(board.rect):
+         if self.rect.colliderect(board.rect):
             if abs(self.rect.bottom - board.rect.top) < collision_threshhold and self.velocity[1]>0:
                 self.velocity[1] = -self.velocity[1]
                 self.velocity[0] += board.direction
@@ -88,14 +85,14 @@ class ball(pygame.sprite.Sprite):
             
     def is_out_bounds(self):
         return self.y_pos > HEIGHT
+
+
 class player:
     pass
 
-
-
 board = board()
 ball = ball()
-all_sprites.add(board,ball)#instanser av sprite classes, läggs i en gemensam group för att enkelt kunna hantera fler sprites samtidigt
+all_sprites.add(board,ball)
     
 
 
@@ -119,9 +116,9 @@ class Main:
             ball.check_board_collision(board)
             if ball.is_out_bounds():
                 ball.reset()
-            all_sprites.update()#uppdaterar alla sprites som är i sprite.group()
-            draw_window()#gör bakgrunden vit
-            all_sprites.draw(screen)#printar/ritar ut alla sprites i sprite.group()
+            all_sprites.update()#uppdates all sprites that is inside sprite.group()
+            draw_window()#makes the bakground white
+            all_sprites.draw(screen)#prints/drwas out all sprites in sprite.group()
             pygame.display.update()       
           
     if __name__ == "__main__":
