@@ -18,7 +18,7 @@ def draw_window():  # fills the screen with color white and updates the screen
 class board(object):
     def __init__(self):
         self.image = pygame.image.load(os.path.join(
-            'assets/images/menu_assets\images', 'breakout_piece_blue.png'))
+            'assets', 'breakout_piece_blue.png'))
         self.y = 560
         self.x = 350
 
@@ -60,5 +60,4 @@ class Main:
             board.draw(screen)
             pygame.display.update()
 
-    if __name__ == "__main__":
-        main()
+
