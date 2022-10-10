@@ -2,6 +2,7 @@ import pygame
 import sys
 from button_v1 import Button
 from main import Main
+from main import lost
 pygame.init()
 
 # Längst upp i vänstra hörnet i spelfönstret kommer det stå: Menu
@@ -100,6 +101,8 @@ def main_menu():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if PLAY_BUTTON.checkForInput(MENU_MOUSE_POS):
                     Main.main()
+                    if lost == True:
+                        main_menu()
                 if OPTIONS_BUTTON.checkForInput(MENU_MOUSE_POS):
                     options()
                 if QUIT_BUTTON.checkForInput(MENU_MOUSE_POS):
