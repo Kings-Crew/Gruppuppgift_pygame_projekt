@@ -9,6 +9,11 @@ screen_height = 1300
 screen = pygame.display.set_mode((screen_width, screen_height))
 pygame.display.set_caption('Breakout')
 
+
+for event in pygame.event.get():
+    if event.type == pygame.QUIT:
+            run = False
+
 #definierea färger
 background = (0, 0, 0)
 #block färger
@@ -55,41 +60,6 @@ class wall():
                 block_row.append(block_individual)
             #append the row to the full list of blocks
             self.blocks.append(block_row)
-
-
-    def draw_wall(self):
-        for row in self.blocks:
-            for block in row:
-                #tilldela färg baserat på blockstyrka
-                if block[1] == 3:
-                    block_col = block_rust
-                elif block[1] == 2:
-                    block_col = block_coffee_brown
-                elif block[1] == 1:
-                    block_col = block_tan
-                pygame.draw.rect(screen, block_col, block[0])
-                pygame.draw.rect(screen, background, (block[0]), 2)
-
-
-
-#skapa vägg
-wall = wall()
-wall.create_wall()
-
-
-
-run = True
-while run:
-
-    screen.fill(background)
-
-    #draw wall
-    wall.draw_wall()
-
-
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            run = False
 
 
     pygame.display.update()
