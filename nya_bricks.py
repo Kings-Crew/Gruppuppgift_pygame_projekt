@@ -1,3 +1,4 @@
+from re import L
 import pygame
 import time
 import os
@@ -15,64 +16,48 @@ all_sprites = pygame.sprite.Group()#a group that holds all sprites,
 #img_folder = os.path.join('assets\images')#path to image folder, saved as a variabel
 
 
-#block colours
-block_tan = (230, 220, 170)
-block_coffee_brown = (200, 190, 140)
-block_rust = (210, 150, 75)
+#---------
+brick_cols = 12
+brick_rows = 6
+brick_start = 16
+
+bricks = [
+    'assets/images/element_blue_rectangle_glossy.png',
+    'assets/images/element_green_rectangle_glossy.png',
+    'assets/images/element_red_rectangle_glossy.png',
+    'assets/images/element_yellow_rectangle.png'
+]
+
+class Bricks:
+    def __init__(self, all_sprites):
+        self.all_sprites = all_sprites
+        self.all_bricks = pygame.sprite.Group()
+
+        for r in range(brick_rows):
+            for c in range(brick_cols):
+                brick = Brick(r, c)
+                self.all_bricks.add(brick)
+                self.all_sprites.add(brick)
+    
+    def check_collisions(self, ball):
+        collision_list = pygame.sprite.spritecollide(ball, self.all_bricks, False)
+        for brick in collision_list:
+            ball.bounce()
+            brick.kill()
 
 
-#define game variables
-cols = 6
-rows = 6
 
 
-#brick wall class
-class wall():
-    def __init__(self):
-        self.width = WIDTH // cols
-        self.height = 50
+class Brick:
+    def __init__(self, row, col):
+        super().__init__()
+        self.x_pos = brick_start * (col * 64) * 32
+        self.y_pos = brick_start * (row * 32) * 16
+        self.image = pygame.image.load(bricks[row])
+        self.rect = self.image.get_rect()
+        self.rect.center = (self.x_pos, self.y_pos)
 
-    def create_wall(self):
-        self.blocks = []
-        #define an empty list for an individual block
-        block_individual = []
-        for row in range(rows):
-            #reset the block row list
-            block_row = []
-            #iterate through each column in that row
-            for col in range(cols):
-                #generate x and y positions for each block and create a rectangle from that
-                block_x = col * self.width
-                block_y = row * self.height
-                rect = pygame.Rect(block_x, block_y, self.width, self.height)
-                #assign block strength based on row
-                if row < 2:
-                    strength = 3
-                elif row < 4:
-                    strength = 2
-                elif row < 6:
-                    strength = 1
-                #create a list at this point to store the rect and colour data
-                block_individual = [rect, strength]
-                #append that individual block to the block row
-                block_row.append(block_individual)
-            #append the row to the full list of blocks
-            self.blocks.append(block_row)
-
-
-    def draw_wall(self):
-        for row in self.blocks:
-            for block in row:
-                #assign a colour based on block strength
-                if block[1] == 3:
-                    block_col = block_rust
-                elif block[1] == 2:
-                    block_col = block_coffee_brown
-                elif block[1] == 1:
-                    block_col = block_tan
-                pygame.draw.rect(screen, block_col, block[0])
-                pygame.draw.rect(screen, WHITE, (block[0]), 2)
-
+#---------
 
 def draw_window():#fills the screen with color white and updates the screen 
     screen.fill((WHITE))
@@ -143,6 +128,13 @@ class ball(pygame.sprite.Sprite):
                     self.velocity[0] = -max_ball_speed
                 else:   
                     self.velocity[0] *= -1
+
+    #-------
+    def bounce(self):
+        self.velocity[0] = -self.velocity[0]
+        self.velocity[1] = RI(-4, 4)
+    #-------
+
     
 
     def is_out_bounds(self):
@@ -157,8 +149,7 @@ ball = ball()
 all_sprites.add(board,ball)
     
 #create a wall
-wall = wall()
-wall.create_wall()
+
 
 
 
@@ -189,7 +180,7 @@ class Main:
             all_sprites.update()#uppdates all sprites that is inside sprite.group()
             draw_window()#makes the bakground white
             #draw wall
-            wall.draw_wall()
+            
             all_sprites.draw(screen)#prints/drwas out all sprites in sprite.group()
             pygame.display.update()       
           
