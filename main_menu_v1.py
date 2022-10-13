@@ -1,14 +1,24 @@
+from lib2to3.pgen2 import pgen
 import pygame
 import sys
 from button_v1 import Button
 from main import Main
 pygame.init()
+from pygame.locals import *
+from pygame import mixer
 
 # Längst upp i vänstra hörnet i spelfönstret kommer det stå: Menu
 SCREEN = pygame.display.set_mode((1280, 720))
 pygame.display.set_caption("DashLack Breakout")
 
-BG = pygame.image.load("assets/Background.png")
+# Backgrundsbild i menu
+BG = pygame.image.load("assets/spacedessert_bg_menu.png")
+BG = pygame.transform.scale(BG, (1280,720))
+ 
+# Musik i backgrunden 
+mixer.init()
+mixer.music.load('assets/music/bensound-summer_mp3_music.mp3')
+mixer.music.play()
 
 
 def get_font(size):  # Returnerar tryck-på-start sekvensen i önskad storlek
@@ -41,6 +51,8 @@ def play():
                     main_menu()
 
         pygame.display.update()
+
+        
 
 
 def options():
@@ -100,6 +112,7 @@ def main_menu():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if PLAY_BUTTON.checkForInput(MENU_MOUSE_POS):
                     Main.main()
+                    mixer.quit()
                 if OPTIONS_BUTTON.checkForInput(MENU_MOUSE_POS):
                     options()
                 if QUIT_BUTTON.checkForInput(MENU_MOUSE_POS):
@@ -107,6 +120,5 @@ def main_menu():
                     sys.exit()
 
         pygame.display.update()
-
 
 main_menu()

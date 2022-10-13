@@ -12,7 +12,9 @@ WIDTH, HEIGHT = 1280 , 720
 screen = pygame.display.set_mode((WIDTH,HEIGHT))
 clock = pygame.time.Clock()
 all_sprites = pygame.sprite.Group()#a group that holds all sprites,
-#img_folder = os.path.join('assets\images')#path to image folder, saved as a variabel
+img_folder = os.path.join('assets\images')#path to image folder, saved as a variabel
+
+
 
 
 #block colours
@@ -75,8 +77,12 @@ class wall():
                 pygame.draw.rect(screen, WHITE, (block[0]), 2)
 
 
+
 def draw_window():#fills the screen with color white and updates the screen 
-    screen.fill((WHITE))
+     screen.fill((WHITE))
+
+
+
 
 class board(pygame.sprite.Sprite):
     def __init__(self):
