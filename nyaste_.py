@@ -5,8 +5,9 @@ import os
 
 pygame.init()
 
-screen_width = 600
-screen_height = 600
+
+screen_width = 650
+screen_height = 650
 
 screen = pygame.display.set_mode((screen_width, screen_height))
 pygame.display.set_caption('Dashlaks Breakout!')
@@ -206,7 +207,7 @@ class game_ball():
             self.game_over = -1
 
 
-        #look for collission with paddle
+        #look for collission with board
         if self.rect.colliderect(board):
             #check if colliding from the top
             if abs(self.rect.bottom - board.rect.top) < collision_thresh and self.speed_y > 0:
@@ -282,7 +283,7 @@ while run:
     #print players instructions
     if not live_ball:
         if game_over_global == 0:
-            draw_text('KINGS CREWS DASHLAK', font, text_color, 100, screen_height // 2 + 100)
+            draw_text("KINGS CREWS 'BETA v2'", font, text_color, 100, screen_height // 2 + 100)
         elif game_over_global == 1:
             draw_text('Winner!', font, text_color, 240, screen_height // 2 + 50)
             draw_text('Click somwhere to START', font, text_color, 100, screen_height // 2 + 100)
