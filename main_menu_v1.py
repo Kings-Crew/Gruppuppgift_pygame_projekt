@@ -16,11 +16,10 @@ BG = pygame.image.load("assets/spacedessert_bg_menu.png")
 BG = pygame.transform.scale(BG, (1280,720))
  
 # Musik i backgrunden 
-def bg_ljud():
-    mixer.init()
-    mixer.music.load('assets/music/bensound-summer_mp3_music.mp3')
-    mixer.music.play()
-    pygame.mixer.music.set_volume(0.5)
+mixer.init()
+mixer.music.load('assets/music/bensound-summer_mp3_music.mp3')
+mixer.music.play()
+
 
 
 def ett_ljud_alla_knappar():
