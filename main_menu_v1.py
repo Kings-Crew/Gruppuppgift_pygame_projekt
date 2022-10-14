@@ -16,9 +16,18 @@ BG = pygame.image.load("assets/spacedessert_bg_menu.png")
 BG = pygame.transform.scale(BG, (1280,720))
  
 # Musik i backgrunden 
-mixer.init()
-mixer.music.load('assets/music/bensound-summer_mp3_music.mp3')
-mixer.music.play()
+def bg_ljud():
+    mixer.init()
+    mixer.music.load('assets/music/bensound-summer_mp3_music.mp3')
+    mixer.music.play()
+    pygame.mixer.music.set_volume(0.5)
+
+
+def ett_ljud_alla_knappar():
+    pygame.mixer.music.load('assets/music/sound_select.wav')
+    pygame.mixer.Sound('assets/music/sound_select.wav')
+    mixer.music.play()
+
 
 
 def get_font(size):  # Returnerar tryck-på-start sekvensen i önskad storlek
@@ -110,6 +119,7 @@ def main_menu():
                 pygame.quit()
                 sys.exit()
             if event.type == pygame.MOUSEBUTTONDOWN:
+                ett_ljud_alla_knappar()
                 if PLAY_BUTTON.checkForInput(MENU_MOUSE_POS):
                     Main.main()
                 if OPTIONS_BUTTON.checkForInput(MENU_MOUSE_POS):
