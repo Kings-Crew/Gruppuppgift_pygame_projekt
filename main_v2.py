@@ -5,7 +5,7 @@ import os
 
 pygame.init()
 
-
+#Storleken är densamma som startmenyn
 screen_width = 1280
 screen_height = 720
 
