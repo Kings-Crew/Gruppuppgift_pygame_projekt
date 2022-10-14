@@ -2,7 +2,10 @@ from lib2to3.pgen2 import pgen
 import pygame
 import sys
 from button_v1 import Button
-from main import Main
+import nyaste_
+
+
+
 pygame.init()
 from pygame.locals import *
 from pygame import mixer
@@ -56,7 +59,7 @@ def play():
                 sys.exit()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if PLAY_BACK.checkForInput(PLAY_MOUSE_POS):
-                    main_menu()
+                    Main.menu()
 
         pygame.display.update()
 
@@ -120,7 +123,7 @@ def main_menu():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 ett_ljud_alla_knappar()
                 if PLAY_BUTTON.checkForInput(MENU_MOUSE_POS):
-                    Main.main()
+                    main.main()
                 if OPTIONS_BUTTON.checkForInput(MENU_MOUSE_POS):
                     options()
                 if QUIT_BUTTON.checkForInput(MENU_MOUSE_POS):
@@ -130,3 +133,4 @@ def main_menu():
         pygame.display.update()
 
 main_menu()
+
