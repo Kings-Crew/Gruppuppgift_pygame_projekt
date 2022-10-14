@@ -312,4 +312,4 @@ def main_game():
 
     #pygame.quit()
 
-main_game()
+#main_game()
