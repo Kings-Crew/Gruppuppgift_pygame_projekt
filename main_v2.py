@@ -286,7 +286,7 @@ def main_game():
     #print players instructions
         if not live_ball:
             if game_over_global == 0:
-                draw_text("KINGS CREWS 'BETA v2'", font, text_color, 100, screen_height // 2 + 100)
+                draw_text("Dashlaks Breakout: 'BETA V2'", font, text_color, 100, screen_height // 2 + 100)
             elif game_over_global == 1:
                 draw_text('Winner!', font, text_color, 240, screen_height // 2 + 50)
                 draw_text('Click somwhere to START', font, text_color, 100, screen_height // 2 + 100)
